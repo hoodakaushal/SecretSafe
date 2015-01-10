@@ -13,24 +13,42 @@ public class XORSystem {
         XORSystem xorSystem = new XORSystem();
         String text = "Mr. and Mrs. Dursley, of number four Privet Drive, were proud to say that they were perfectly normal, thank you very much.";
 
-        String[] pieces = xorSystem.encrypt(text);
+        String[] pieces = xorSystem.encrypt(text, 5);
         System.out.println(pieces[0]);
         System.out.println(pieces[1]);
+        System.out.println(pieces[2]);
+        System.out.println(pieces[3]);
+        System.out.println(pieces[4]);
 
-        String test = xorSystem.decrypt(pieces[1], pieces[0]);
+
+        String test = xorSystem.decrypt(pieces);
         System.out.println(test);
     }
 
-    public String[] encrypt(String s) throws Exception {
+    public String[] encrypt(String s, int n) throws Exception {
         String bits = toBinary(s);
-        String bits1 = keyGen(bits.length());
-        String bits2 = doXOR(bits, bits1);
-        String[] pieces = {bits1, bits2};
+        int length = bits.length();
+        String[] pieces = new String[n];
+
+        for (int i = 0; i < n - 1; i++) {
+            pieces[i] = keyGen(length);
+        }
+
+        String nth = bits;
+        for (int i = 0; i < n - 1; i++) {
+            nth = doXOR(pieces[i], nth);
+        }
+
+        pieces[n - 1] = nth;
         return pieces;
     }
 
-    public String decrypt(String a, String b) {
-        String decrypted = doXOR(a, b);
+    public String decrypt(String[] pieces) {
+
+        String decrypted = new String(new char[pieces[0].length()]).replace("\0", "0");
+        for (int i = 0; i < pieces.length; i++) {
+            decrypted = doXOR(pieces[i], decrypted);
+        }
         String cleartext = toString(decrypted);
         return cleartext;
     }
