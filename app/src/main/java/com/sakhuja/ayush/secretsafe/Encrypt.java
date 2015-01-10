@@ -31,7 +31,7 @@ public class Encrypt extends ActionBarActivity {
             SharedPreferences sharedPreferences = Encrypt.this.getSharedPreferences("UserPassPreferences", Encrypt.this.MODE_PRIVATE);
             Set<String> ids = sharedPreferences.getStringSet("ids", new HashSet<String>());
             String[] id = ids.toArray(new String[ids.size()]);
-            ArrayList<String> parts = split(args[1], ids.size());
+            ArrayList<String> parts = SplitCombine.split(args[1], ids.size());
 
             //System.out.println(p.size());
 
@@ -70,22 +70,6 @@ public class Encrypt extends ActionBarActivity {
                 }
             }
             return null;
-        }
-
-        public ArrayList<String> split(String in, int n) {
-            ArrayList<String> parts = new ArrayList<String>(Collections.nCopies(n, ""));
-            for (int i = 0; i < in.length(); i++) {
-                int sum = 0;
-                for (int j = 0; j < n - 1; j++) {
-                    Random rand = new Random();
-                    int randomNum = rand.nextInt(1998) - 999;
-                    parts.set(j, parts.get(j) + Integer.toString(randomNum) + " ");
-                    sum += randomNum;
-                }
-                int m = in.charAt(i);
-                parts.set(n - 1, parts.get(n - 1) + Integer.toString(m - sum) + " ");
-            }
-            return parts;
         }
 //            ProgressBar progressBar = (ProgressBar) findViewById(R.id.sendprogress);
 //            progressBar.setVisibility(View.INVISIBLE);

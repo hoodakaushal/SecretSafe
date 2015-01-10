@@ -87,7 +87,7 @@ public class Decrypt extends ActionBarActivity implements SearchResultDialog.Dia
             parts.add(emails.get(i).get(index).body);
             System.out.println(parts.get(parts.size()-1));
         }
-        String text = join(parts);
+        String text = SplitCombine.combine(parts);
         TextView textView = (TextView) findViewById(R.id.resultext);
         textView.setText(text);
         p.clear();
@@ -130,25 +130,5 @@ public class Decrypt extends ActionBarActivity implements SearchResultDialog.Dia
         if (requestCode == 1){
             p = data.getStringArrayListExtra("p");
         }
-    }
-
-    public String join (ArrayList<String> parts){
-        String s = parts.get(0);
-        int len=0;
-        for (int i=0;i<s.length();i++){
-            if (s.charAt(i)==' ' ){
-                len++;
-            }
-        }
-        s = "";
-        for (int i=0;i<len;i++){
-            int sum=0;
-            for (int j=0;j<parts.size();j++){
-                sum+=Integer.parseInt(parts.get(j).split(" ")[i]);
-            }
-            //System.out.println(sum);
-            s += (char) sum;
-        }
-        return s;
     }
 }
