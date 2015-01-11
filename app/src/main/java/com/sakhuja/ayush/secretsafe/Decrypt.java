@@ -35,12 +35,12 @@ public class Decrypt extends ActionBarActivity implements SearchResultDialog.Dia
             System.out.println(ids.size());
             List<Email> email = new ArrayList<>();
             try{
-            for (int i=ids.size()-1;i>=0;i--){
+            for (int i=0;i<ids.size();i++){
 
                     System.out.println(id[i]);
                     email = ReadMail.read(Email.getHost(2,id[i]),id[i],p.get(i),args[0]);
                     emails.add(email);
-                    if (i==0){
+                    if (i==ids.size()-1){
                         ArrayList<String> subjects = new ArrayList<>();
                         for ( Email e : email ) {
                             subjects.add(e.subject);
@@ -80,14 +80,33 @@ public class Decrypt extends ActionBarActivity implements SearchResultDialog.Dia
     @Override
     public void onSelection(String subject,int index){
         //Handle decryption here
-        //TODO Validate correctness
         System.out.println(emails.size());
         ArrayList<String> parts = new ArrayList<>();
+        ArrayList<String> flags = new ArrayList<>();
         for (int i = 0;i<emails.size();i++){
-            parts.add(emails.get(i).get(index).body);
-            System.out.println(parts.get(parts.size()-1));
+            if (emails.get(i).get(index).subject.equals(subject)){
+                parts.add(emails.get(i).get(index).body);
+                System.out.println(parts.get(parts.size()-1));
+                flags.add("-s"+Integer.toString(i+1));
+            }
+            else{
+                for (int j=0;i<emails.get(i).size();j++){
+                    if (emails.get(i).get(j).subject.equals(subject)){
+                        parts.add(emails.get(i).get(index).body);
+                        flags.add("-s"+Integer.toString(i+1));
+                    }
+                }
+            }
         }
-        String text = SplitCombine.combine(parts);
+        SharedPreferences sharedPreferences = Decrypt.this.getSharedPreferences("UserPassPreferences", Decrypt.this.MODE_PRIVATE);
+        int k = sharedPreferences.getInt("k",0);
+        String text;
+        if (k==0){
+            text = SplitCombine.combine(parts);
+        }
+        else{
+            text = SplitCombine.shamirCombine(parts,flags,k);
+        }
         TextView textView = (TextView) findViewById(R.id.resultext);
         textView.setText(text);
         p.clear();

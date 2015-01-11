@@ -5,18 +5,16 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
+import java.util.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 
@@ -31,16 +29,23 @@ public class Encrypt extends ActionBarActivity {
             SharedPreferences sharedPreferences = Encrypt.this.getSharedPreferences("UserPassPreferences", Encrypt.this.MODE_PRIVATE);
             Set<String> ids = sharedPreferences.getStringSet("ids", new HashSet<String>());
             String[] id = ids.toArray(new String[ids.size()]);
-            ArrayList<String> parts = SplitCombine.split(args[1], ids.size());
-
-            //System.out.println(p.size());
-
+            int k = sharedPreferences.getInt("k",0);
+            ArrayList<String> parts;
+            if (k==0){
+                parts = SplitCombine.split(args[1], ids.size());
+            }
+            else{
+                parts = SplitCombine.shamirSplit(args[1], ids.size(),k);
+            }
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+            String formattedDate = sdf.format(date);
             int i = 0;
             while (i < ids.size()) {
                 String host = Email.getHost(1,id[i]);
                 final SendMail m = new SendMail(id[i], p.get(i),host);
                 try {
-                    if (m.send(id[i], p.get(i), id[i], id[i], args[0], parts.get(i))) {
+                    if (m.send(id[i], p.get(i), id[i], id[i], formattedDate+";"+args[0], parts.get(i))) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

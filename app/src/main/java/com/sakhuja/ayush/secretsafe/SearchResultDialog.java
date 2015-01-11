@@ -40,8 +40,6 @@ public class SearchResultDialog extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         final ArrayList<String> subject = getArguments().getStringArrayList("subject");
-        //ArrayList<String> subject = new ArrayList<>();
-        //System.out.println("dialog");
         final CharSequence[] sub = subject.toArray(new CharSequence[subject.size()]);
         DialogInterface.OnClickListener im = new DialogInterface.OnClickListener() {
             @Override

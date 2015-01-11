@@ -62,7 +62,7 @@ public class SplitCombine {
         Pattern pattern = Pattern.compile("secret.string = '");
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()){
-            return (content.substring(matcher.end(), content.length()-3));
+            return (content.substring(matcher.end(), content.length()-2));
         }
         else{
             return "";
