@@ -158,8 +158,8 @@ public class Decrypt extends ActionBarActivity implements SearchResultDialog.Dia
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            long endTime = System.currentTimeMillis();
-            System.out.println("Decryption took " + (endTime - startTime) / 1000.0 + " seconds");
+//            long endTime = System.currentTimeMillis();
+//            System.out.println("Decryption took " + (endTime - startTime) / 1000.0 + " seconds");
             /*for (int i=0;i<emails.size();i++){
                 File file = new File(path+emails.get(i).get(0).attachments.get(0).name);
                 file.delete();
