@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:gravity="center"
-        android:text="Enter the Text that you want to encrypt"
+        android:text="Enter the Text that you want to encrypt or path to file to be encrypted"
         android:id="@+id/textView5"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />

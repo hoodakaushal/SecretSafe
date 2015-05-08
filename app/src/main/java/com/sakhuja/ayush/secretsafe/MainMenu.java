@@ -20,6 +20,11 @@ public class MainMenu extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void Settings(View view){
+        Intent intent = new Intent(this,SettingsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

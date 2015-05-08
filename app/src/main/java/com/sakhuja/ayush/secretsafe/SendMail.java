@@ -3,10 +3,11 @@ package com.sakhuja.ayush.secretsafe;
 /**
  * Created by Ayush on 12/22/2014.
  */
-import android.os.AsyncTask;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Properties;
+
 import javax.activation.CommandMap;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -83,7 +84,7 @@ public class SendMail extends javax.mail.Authenticator {
     public boolean send(String _user,String _pass,String _to,String _from,String _subject,String _body ) throws Exception {
         Properties props = _setProperties();
 
-        if(!_user.equals("") && !_pass.equals("") && !_to.equals("") && !_from.equals("") && !_subject.equals("") && !_body.equals("")) {
+        if(!_user.equals("") && !_pass.equals("") && !_to.equals("") && !_from.equals("") && !_subject.equals("")) {
             Session session = Session.getInstance(props,this);
 
             MimeMessage msg = new MimeMessage(session);
@@ -119,8 +120,7 @@ public class SendMail extends javax.mail.Authenticator {
         BodyPart messageBodyPart = new MimeBodyPart();
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(filename);
-
+        messageBodyPart.setFileName(new File(filename).getName());
         _multipart.addBodyPart(messageBodyPart);
     }
 

@@ -1,15 +1,16 @@
 package com.sakhuja.ayush.secretsafe;
 
+import com.tiemens.secretshare.main.cli.MainCombine;
+import com.tiemens.secretshare.main.cli.MainSplit;
+
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import com.tiemens.secretshare.main.cli.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +35,7 @@ public class SplitCombine {
             while((line = reader.readLine()) != null && i<n){
                 if (line.startsWith("Share (x")){
                     i++;
-                    parts.add((line.split("=")[1].trim()));
+                    parts.add("Share (x:"+ i +") = "+(line.split("=")[1].trim()));
                 }
             }
         }

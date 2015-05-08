@@ -15,9 +15,9 @@ public class Splash extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         SharedPreferences sharedPreferences = this.getSharedPreferences("UserPassPreferences",this.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.clear();
+//        editor.commit();
         int n = sharedPreferences.getInt("n",0);
         Intent intent;
         if (n==0){

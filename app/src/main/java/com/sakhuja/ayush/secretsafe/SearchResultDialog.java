@@ -11,6 +11,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
 public class SearchResultDialog extends DialogFragment{
@@ -45,10 +46,12 @@ public class SearchResultDialog extends DialogFragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getActivity(),sub[which],Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+//                getActivity().finish();
                 //Activity callingActivity = (Activity) getActivity();
+//                while (!getActivity().hasWindowFocus()){}
                 mListener = (DialogListener) getActivity();
                 mListener.onSelection(subject.get(which),which);
-                dialog.dismiss();
                 //TextView textView = (TextView) findViewById(R.id.textView1);
             }
         };
@@ -57,4 +60,5 @@ public class SearchResultDialog extends DialogFragment{
         builder.setItems(sub,im);
         return builder.create();
     }
+
 }

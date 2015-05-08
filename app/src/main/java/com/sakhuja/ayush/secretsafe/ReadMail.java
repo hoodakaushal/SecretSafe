@@ -3,14 +3,17 @@ package com.sakhuja.ayush.secretsafe;
 /**
  * Created by Ayush on 1/1/2015.
  */
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Multipart;
@@ -26,7 +29,9 @@ import javax.mail.search.SubjectTerm;
 
 public class ReadMail {
 
-    public static List<Email> read(String host, String user, String pass, String tag) throws Exception {
+    static String downloadDir = "/storage/extSdCard";
+
+    public static List<Email> read(String host, String user, String pass, String tag, boolean download) throws Exception {
 
         List<Email> emails = new ArrayList<Email>();
 
@@ -103,6 +108,25 @@ public class ReadMail {
                             } else {
                                 EmailAttachment attachment = new EmailAttachment();
                                 attachment.name = decodeName(part.getFileName());
+                                if (download){
+
+//                                    File savedir = new File(downloadDir);
+//                                    savedir.mkdirs();
+                                    // File savefile = File.createTempFile( "emailattach", ".atch", savedir);
+                                    File savefile = new File(downloadDir,attachment.name);
+                                    OutputStream outStream = null;
+                                    try{
+                                        outStream = new FileOutputStream(savefile);
+                                        outStream.flush();
+                                        outStream.close();
+                                    }
+                                    catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                    System.out.println("Attachment saved");
+                                    attachment.path = savefile.getAbsolutePath();
+                                    attachment.size = saveFile(savefile, part);
+                                }
                                 email.attachments.add(attachment);
                             }
                         }
